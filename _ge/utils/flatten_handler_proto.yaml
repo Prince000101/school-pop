@@ -1,0 +1,15 @@
+middleware:
+  image: python:${{TAG}}
+  build:
+    context: .
+    dockerfile: Dockerfile.middleware
+    args:
+      NODE_ENV: production
+  ports:
+    - "3000:3000"
+  environment:
+    - LOG_LEVEL=DEBUG
+    - CACHE_TTL=300
+  volumes:
+    - middleware_data:/var/lib/data
+  restart: unless-stopped

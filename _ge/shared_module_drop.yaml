@@ -1,0 +1,15 @@
+worker:
+  image: nginx:${{TAG}}
+  build:
+    context: .
+    dockerfile: Dockerfile.worker
+    args:
+      NODE_ENV: production
+  ports:
+    - "8080:8080"
+  environment:
+    - LOG_LEVEL=DEBUG
+    - CACHE_TTL=600
+  volumes:
+    - worker_data:/var/lib/data
+  restart: unless-stopped

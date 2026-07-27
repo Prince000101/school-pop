@@ -1,0 +1,15 @@
+register:
+  image: nginx:${{TAG}}
+  build:
+    context: .
+    dockerfile: Dockerfile.register
+    args:
+      NODE_ENV: production
+  ports:
+    - "5000:5000"
+  environment:
+    - LOG_LEVEL=DEBUG
+    - CACHE_TTL=600
+  volumes:
+    - register_data:/var/lib/data
+  restart: unless-stopped

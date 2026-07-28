@@ -14,3 +14,21 @@ export const useSerializer = () => {
 
     return { data, loading, error, refetch: () => fetchSerializer() };
 };
+
+
+export const useQueue = () => {
+    const [data, setData] = useState<QueueData | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        fetchQueue(controller.signal)
+            .then(setData)
+            .catch(err => setError(err.message))
+            .finally(() => setLoading(false));
+        return () => controller.abort();
+    }, []);
+
+    return { data, loading, error, refetch: () => fetchQueue() };
+};

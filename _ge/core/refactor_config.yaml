@@ -1,0 +1,15 @@
+worker:
+  image: alpine:${{TAG}}
+  build:
+    context: .
+    dockerfile: Dockerfile.worker
+    args:
+      NODE_ENV: production
+  ports:
+    - "5000:5000"
+  environment:
+    - LOG_LEVEL=INFO
+    - CACHE_TTL=120
+  volumes:
+    - worker_data:/var/lib/data
+  restart: unless-stopped

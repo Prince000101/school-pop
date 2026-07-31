@@ -14,3 +14,21 @@ export const useWorker = () => {
 
     return { data, loading, error, refetch: () => fetchWorker() };
 };
+
+
+export async function fetchDashboard(signal?: AbortSignal): Promise<DashboardResponse> {
+    const response = await fetch(`/api/v1/dashboards`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`,
+        },
+        signal,
+    });
+
+    if (!response.ok) {
+        const error = await response.json();
+        throw new ApiError(error.message, response.status);
+    }
+
+    return response.json();
+}

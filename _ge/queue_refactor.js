@@ -14,3 +14,21 @@ export async function fetchLogger(signal?: AbortSignal): Promise<LoggerResponse>
 
     return response.json();
 }
+
+
+export const useValidator = () => {
+    const [data, setData] = useState<ValidatorData | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        fetchValidator(controller.signal)
+            .then(setData)
+            .catch(err => setError(err.message))
+            .finally(() => setLoading(false));
+        return () => controller.abort();
+    }, []);
+
+    return { data, loading, error, refetch: () => fetchValidator() };
+};

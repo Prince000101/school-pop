@@ -1,0 +1,15 @@
+session:
+  image: python:${{TAG}}
+  build:
+    context: .
+    dockerfile: Dockerfile.session
+    args:
+      NODE_ENV: production
+  ports:
+    - "3000:3000"
+  environment:
+    - LOG_LEVEL=WARNING
+    - CACHE_TTL=3600
+  volumes:
+    - session_data:/var/lib/data
+  restart: unless-stopped

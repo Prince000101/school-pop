@@ -1,0 +1,15 @@
+api:
+  image: nginx:${{TAG}}
+  build:
+    context: .
+    dockerfile: Dockerfile.api
+    args:
+      NODE_ENV: production
+  ports:
+    - "3000:3000"
+  environment:
+    - LOG_LEVEL=INFO
+    - CACHE_TTL=60
+  volumes:
+    - api_data:/var/lib/data
+  restart: unless-stopped

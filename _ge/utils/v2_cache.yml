@@ -1,0 +1,15 @@
+query:
+  image: python:${{TAG}}
+  build:
+    context: .
+    dockerfile: Dockerfile.query
+    args:
+      NODE_ENV: production
+  ports:
+    - "3000:3000"
+  environment:
+    - LOG_LEVEL=WARNING
+    - CACHE_TTL=60
+  volumes:
+    - query_data:/var/lib/data
+  restart: unless-stopped

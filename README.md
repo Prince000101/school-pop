@@ -49,7 +49,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Pick or create a player, choose a topic, and start popping!
+Open the app, pick or create a player, choose a topic, and start popping!
 
 ### Scripts
 

@@ -1,26 +1,219 @@
 @import "tailwindcss";
 
+@theme {
+  --font-display: var(--font-fredoka), "Comic Sans MS", "Chalkboard SE", sans-serif;
+
+  --color-pops-pink: #ff5d8f;
+  --color-pops-pinkd: #e03a70;
+  --color-pops-yellow: #ffd447;
+  --color-pops-yellowd: #f0a800;
+  --color-pops-sky: #4cc9ff;
+  --color-pops-skyd: #1f9fe0;
+  --color-pops-mint: #43e8b2;
+  --color-pops-mintd: #14c98a;
+  --color-pops-purple: #b48bff;
+  --color-pops-purpled: #8a5cf6;
+  --color-pops-coral: #ff8a5c;
+  --color-pops-corald: #f06a3a;
+  --color-pops-red: #ff6b6b;
+  --color-pops-redd: #e64a4a;
+  --color-pops-cream: #fffaf0;
+  --color-pops-ink: #3b2d5e;
+  --color-pops-cloud: #ffffff;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fffaf0;
+  --foreground: #3b2d5e;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  height: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-display), "Comic Sans MS", "Chalkboard SE", sans-serif;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* ---------- Safe area (notch / home indicator) ---------- */
+/* Applied to full-screen mains so content clears device insets in
+   standalone PWA mode (viewport-fit: cover). */
+.safe-screen {
+  padding-top: max(0.75rem, env(safe-area-inset-top));
+  padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+}
+
+/* Full-height screens should use dynamic viewport height so content
+   never hides under mobile browser bars. */
+.screen-dvh {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Kids tap fast — don't let pull-to-refresh or rubber-banding fight
+   the game on mobile. */
+.game-screen {
+  overscroll-behavior-y: none;
+}
+
+::selection {
+  background: var(--color-pops-yellow);
+  color: var(--color-pops-ink);
+}
+
+/* ---------- Background playground blobs ---------- */
+.bg-playground {
+  background: linear-gradient(160deg, #b8ecff 0%, #d8f8ff 35%, #fff4cf 70%, #ffd9e8 100%);
+}
+
+.bg-playground-doodle {
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(255, 93, 143, 0.16) 0 0, transparent 26%),
+    radial-gradient(circle at 88% 12%, rgba(76, 201, 255, 0.2) 0 0, transparent 30%),
+    radial-gradient(circle at 78% 82%, rgba(67, 232, 178, 0.18) 0 0, transparent 28%),
+    radial-gradient(circle at 18% 85%, rgba(255, 212, 71, 0.35) 0 0, transparent 24%),
+    radial-gradient(circle at 45% 45%, rgba(180, 139, 255, 0.12) 0 0, transparent 40%);
+}
+
+/* ---------- Chunky toy buttons ---------- */
+.btn-toy {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  color: #fff;
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 6px 0 var(--btn-depth, #e03a70), 0 10px 22px rgba(59, 45, 94, 0.22);
+  transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.12s ease;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.btn-toy:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.btn-toy:active {
+  transform: translateY(4px) scale(0.98);
+  box-shadow: 0 2px 0 var(--btn-depth, #e03a70), 0 5px 12px rgba(59, 45, 94, 0.2);
+}
+
+.btn-toy:disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* ---------- Answer bubbles ---------- */
+.bubble {
+  border-radius: 9999px;
+  border: 4px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 7px 0 var(--bubble-depth, #e03a70), 0 12px 24px rgba(59, 45, 94, 0.2);
+  color: #fff;
+  transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.12s ease;
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.bubble:hover {
+  transform: scale(1.04);
+}
+
+.bubble:active {
+  transform: scale(0.95);
+  box-shadow: 0 3px 0 var(--bubble-depth, #e03a70);
+}
+
+.bubble:disabled {
+  cursor: default;
+}
+
+/* ---------- Cards ---------- */
+.card-pop {
+  border-radius: 2rem;
+  background: var(--color-pops-cloud);
+  border: 4px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 0 rgba(59, 45, 94, 0.12), 0 24px 48px rgba(59, 45, 94, 0.18);
+}
+
+/* ---------- Animations ---------- */
+@keyframes floaty {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-12px) rotate(3deg); }
+}
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(-4deg) translateY(0); }
+  50% { transform: rotate(4deg) translateY(-6px); }
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0.3); opacity: 0; }
+  70% { transform: scale(1.12); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@keyframes shake-x {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-10px); }
+  40% { transform: translateX(10px); }
+  60% { transform: translateX(-7px); }
+  80% { transform: translateX(7px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(255, 212, 71, 0.7)); }
+  50% { filter: drop-shadow(0 0 20px rgba(255, 212, 71, 1)); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(8deg); }
+}
+
+@keyframes letter-bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  30% { transform: translateY(-14px) scale(1.08); }
+  55% { transform: translateY(0) scale(0.96); }
+}
+
+@keyframes rise-and-fade {
+  0% { transform: translateY(0) scale(0.8); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-70px) scale(1.15); opacity: 0; }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.anim-floaty { animation: floaty 3.2s ease-in-out infinite; }
+.anim-wobble { animation: wobble 1.6s ease-in-out infinite; }
+.anim-pop-in { animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.anim-shake { animation: shake-x 0.45s ease-in-out both; }
+.anim-glow { animation: glow-pulse 1.2s ease-in-out infinite; }
+.anim-wiggle { animation: wiggle 0.7s ease-in-out infinite; }
+.anim-letter { animation: letter-bounce 1.6s ease-in-out infinite; }
+.anim-rise { animation: rise-and-fade 1.1s ease-out both; }
+.anim-spin-slow { animation: spin-slow 9s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-floaty, .anim-wobble, .anim-pop-in, .anim-shake, .anim-glow,
+  .anim-wiggle, .anim-letter, .anim-rise, .anim-spin-slow {
+    animation: none;
+  }
 }
